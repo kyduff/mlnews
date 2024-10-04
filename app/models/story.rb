@@ -464,11 +464,6 @@ class Story < ApplicationRecord
 
     Prosopite.resume
 
-    if taggings.reject { |t| t.marked_for_destruction? || t.tag.is_media? }.empty?
-      errors.add(:base, "Must have at least one non-media (PDF, video) " \
-        "tag.  If no tags apply to your content, it probably doesn't " \
-        "belong here.")
-    end
   end
 
   def comments_path
