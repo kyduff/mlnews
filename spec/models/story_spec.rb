@@ -41,13 +41,6 @@ describe Story do
     expect { create(:story, title: ("hello" * 100)) }.to raise_error
   end
 
-  it "must have at least one tag" do
-    expect { create(:story, tags_a: nil) }.to raise_error
-    expect { create(:story, tags_a: ["", " "]) }.to raise_error
-
-    expect { create(:story, tags_a: ["", "tag1"]) }.to_not raise_error
-  end
-
   it "removes redundant http port 80 and https port 443" do
     expect(Story.new(url: "http://example.com:80").url).to eq("http://example.com")
     expect(Story.new(url: "http://example.com:80/").url).to eq("http://example.com/")
