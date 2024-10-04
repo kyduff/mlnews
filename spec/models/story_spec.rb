@@ -41,6 +41,11 @@ describe Story do
     expect { create(:story, title: ("hello" * 100)) }.to raise_error
   end
 
+  it "does not allow urls except from arxiv" do
+    expect { create(:story, url: "http://example.com/") }.to raise_error
+    expect { create(:story, url: "https://arxiv.org/abs/2101.07554") }.to_not raise_error
+  end
+
   it "removes redundant http port 80 and https port 443" do
     expect(Story.new(url: "http://example.com:80").url).to eq("http://example.com")
     expect(Story.new(url: "http://example.com:80/").url).to eq("http://example.com/")
