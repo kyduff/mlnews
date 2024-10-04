@@ -1033,6 +1033,17 @@ class Story < ApplicationRecord
     rescue
     end
 
+    # attempt to get abstract from url if it can be parsed,
+    # try <meta property="og:description"> first
+    abstract = ""
+    begin
+      abstract = parsed.at_css("meta[property='og:description']")
+        .attributes["content"].text
+    rescue
+    end
+
+    @fetched_attributes[:abstract] = abstract
+
     @fetched_attributes
   end
 
