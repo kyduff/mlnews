@@ -107,7 +107,6 @@ class StoriesController < ApplicationController
       if @story.already_posted_recently?
         # user won't be able to submit this story as new, so just redirect
         # them to the previous story
-        flash[:success] = "This URL has already been submitted recently."
         return redirect_to @story.most_recent_similar.comments_path
       end
 
