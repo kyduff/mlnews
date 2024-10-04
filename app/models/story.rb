@@ -171,6 +171,11 @@ class Story < ApplicationRecord
       check_not_banned_domain
       check_not_new_domain_from_new_user
       check_not_pushcx_stream
+
+      unless url.starts_with?("https://arxiv.org/")
+        errors.add(:url, "Must be from https://arxiv.org/")
+      end
+
       errors.add(:url, "is not valid") unless url.match(Utils::URL_RE)
     elsif description.to_s.strip == ""
       errors.add(:description, "must contain text if no URL posted")
