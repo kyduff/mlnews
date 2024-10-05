@@ -153,7 +153,7 @@ class StoriesController < ApplicationController
     @story.user_id = @user.id
     @story.previewing = true
 
-    build
+    self.build
 
     @story.current_vote = Vote.new(vote: 1)
     @story.score = 1
