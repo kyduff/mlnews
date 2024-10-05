@@ -127,12 +127,6 @@ class StoriesController < ApplicationController
       @story.url = sattrs[:url]
     end
 
-    if @story.already_posted_recently?
-      # user won't be able to submit this story as new, so just redirect
-      # them to the previous story
-      return redirect_to @story.most_recent_similar.comments_path
-    end
-
     if @story.is_resubmit?
       @comment = @story.comments.new(user: @user)
       @comment.comment = params[:comment]
@@ -153,10 +147,10 @@ class StoriesController < ApplicationController
     @story.user_id = @user.id
     @story.previewing = true
 
-    self.build
-
     @story.current_vote = Vote.new(vote: 1)
     @story.score = 1
+
+    self.build
 
     @story.valid?
 
