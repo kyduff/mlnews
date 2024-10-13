@@ -52,7 +52,10 @@ class Link < ApplicationRecord
   def self.recreate_from_comment! c
     Link.transaction do
       Link.where(from_comment_id: c.id).delete_all
-      c.parsed_links.each(&:save)
+      c.parsed_links.each do |link|
+        link.from_comment = c
+        link.save
+      end
     end
   end
 
@@ -60,7 +63,10 @@ class Link < ApplicationRecord
   def self.recreate_from_story! s
     Link.transaction do
       Link.where(from_story_id: s.id).delete_all
-      s.parsed_links.each(&:save)
+      s.parsed_links.each do |link|
+        link.from_story = s
+        link.save
+      end
     end
   end
 
