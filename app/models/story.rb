@@ -1065,7 +1065,8 @@ class Story < ApplicationRecord
 
     @fetched_attributes = {
       url: url,
-      title: ""
+      title: "",
+      abstract: "",
     }
 
     # security: do not connect to arbitrary user-submitted ports

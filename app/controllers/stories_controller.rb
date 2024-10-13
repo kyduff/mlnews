@@ -115,31 +115,15 @@ class StoriesController < ApplicationController
         @comment.comment = params[:comment]
         @comment.hat = @user.wearable_hats.find_by(short_id: params[:hat_id])
       end
+
+      # ignore what the user brought unless we need it as a fallback
+      @story.title = sattrs[:title]
+      if @story.title.blank? && params[:title].present?
+        @story.title = params[:title]
+      end
+
+      @story.description = sattrs[:abstract]
     end
-  end
-
-  def build
-    sattrs = @story.fetched_attributes
-
-    if sattrs[:url].present? && @story.url != sattrs[:url]
-      flash.now[:notice] = "Note: URL has been changed to fetched " \
-        "canonicalized version"
-      @story.url = sattrs[:url]
-    end
-
-    if @story.is_resubmit?
-      @comment = @story.comments.new(user: @user)
-      @comment.comment = params[:comment]
-      @comment.hat = @user.wearable_hats.find_by(short_id: params[:hat_id])
-    end
-
-    # ignore what the user brought unless we need it as a fallback
-    @story.title = sattrs[:title]
-    if @story.title.blank? && params[:title].present?
-      @story.title = params[:title]
-    end
-
-    @story.description = sattrs[:abstract]
   end
 
   def preview
@@ -149,8 +133,6 @@ class StoriesController < ApplicationController
 
     @story.current_vote = Vote.new(vote: 1)
     @story.score = 1
-
-    self.build
 
     @story.valid?
 
